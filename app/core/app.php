@@ -1,44 +1,42 @@
 <?php
-
-class App {
-
-    protected $controller = 'home';
+class App{
+    protected $controller = 'Home';
     protected $method = 'index';
     protected $params = [];
 
-    public function __construct() {
+    public function __construct()
+    {
         $url = $this->parseURL();
-
-        // Cek apakah controller ada
-        if (isset($url[0]) && file_exists('../app/controllers/' . $url[0] . '.php')) {
+        // controller method
+        if( file_exists('../app/controllers/'. $url[0]. '.php') ) {
             $this->controller = $url[0];
             unset($url[0]);
         }
-
-        // Load controller (Harus di dalam __construct())
-        require_once '../app/controllers/' . $this->controller . '.php';
-        $this->controller = new $this->controller;
-
-        // Cek method
-        if (isset($url[1]) && method_exists($this->controller, $url[1])) {
-            $this->method = $url[1];
-            unset($url[1]);
+        require_once '../app/controllers/'. $this->controller. '.php';
+        $this->controller = new $this->controller; 
+        // method
+        if( isset($url[1]) ) {
+            if( method_exists($this->controller, $url[1]) ) {
+                $this->method = $url[1]; // Perbaikan disini
+                unset($url[1]);
+            } 
         }
-
-        // Ambil parameter
-        $this->params = !empty($url) ? array_values($url) : [];
-
-        // Panggil controller dan method
+        // params 
+        if( !empty($url)) {
+            $this->params = array_values($url);
+        }
+        // Jalankan controller & method, serta kirimkan params jika ada 
         call_user_func_array([$this->controller, $this->method], $this->params);
-    } // ✅ Pastikan __construct() ditutup dengan benar
+    }
 
-    public function parseURL() {
-        if (isset($_GET['url'])) {
+    public function parseURL()
+    {
+        if( isset($_GET['url']) ) {
             $url = rtrim($_GET['url'], '/');
             $url = filter_var($url, FILTER_SANITIZE_URL);
-            return explode('/', $url);
-        }
-        return [];
+            $url = explode('/', $url);
+            return $url;
     }
+}
 }
 ?>

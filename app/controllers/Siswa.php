@@ -23,8 +23,26 @@ class Siswa extends Controller{
     public function tambah()
     {
         if( $this->model('Siswa_model')->tambahDataSiswa($_POST) > 0) {
+            Flasher::setFlash('berhasil', 'ditambahkan', 'success');
             header('location:' . BASEURL . '/siswa');
             exit;
+        } else {
+                Flasher::setFlash('berhasil', 'ditambahkan', 'danger');
+                header('location:' . BASEURL . '/siswa');
+                exit;
+        }
+    }
+
+    public function hapus($id)
+    {
+        if( $this->model('Siswa_model')->hapusDataSiswa($id) > 0) {
+            Flasher::setFlash('berhasil', 'dihapus', 'success');
+            header('location:' . BASEURL . '/siswa');
+            exit;
+        } else {
+                Flasher::setFlash('berhasil', 'dihapus', 'danger');
+                header('location:' . BASEURL . '/siswa');
+                exit;
         }
     }
 }

@@ -1,4 +1,10 @@
-<div class="container mt-5">
+<div class="container mt-3">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <?php Flasher::flash(); ?>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-6">
@@ -8,11 +14,13 @@
             <h3>Daftar Siswa</h3>
             <ul class="list-group">
                 <?php foreach ($data['siswa'] as $siswa) :?>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item  ">
                         <?= $siswa['nama']; ?>
-                        <a href="<?= BASEURL; ?>/siswa/detail/<?= $siswa['id']; ?>" class="badge text-bg-primary">detail</a>
+                        <a href="<?= BASEURL; ?>/siswa/hapus/<?= $siswa['id']; ?>" class="badge text-bg-danger float-end ms-2" onclick="return confirm('yakin?')">hapus</a>
+                        <a href="<?= BASEURL; ?>/siswa/detail/<?= $siswa['id']; ?>" class="badge text-bg-success float-end ms-2 tampilModalUbah" data-bs-toggle="modal" data-bs-target="#formModal">ubah</a>
+                        <a href="<?= BASEURL; ?>/siswa/detail/<?= $siswa['id']; ?>" class="badge text-bg-primary float-end ms-2">detail</a>
+                        <?php endforeach; ?>
                     </li>
-                <?php endforeach; ?>
             </ul>
 
 
@@ -44,16 +52,16 @@
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <input type="email" class="form-control" id="email" name="email"  placeholder="email@example.com">
             </div>
 
             <div class="form-label">
                 <label for="jurusan">jurusan</label>
                 <select class="form-control" id="jurusan" name="jurusan">>
-                    <option selected>Open this select menu</option>
+                    <option selected>Pilih Jurusan</option>
                     <option value="Teknik Informatika">Teknik Informatika</option>
                     <option value="Psikologi">Psikologi</option>
-                    <option value="Teknik Informatika">Teknik Informatika</option>
+                    <option value="Teknik Mesin">Teknik Mesin</option>
                 </select>
             </div>
 
